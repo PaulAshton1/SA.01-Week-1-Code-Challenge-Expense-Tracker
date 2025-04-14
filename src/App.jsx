@@ -1,11 +1,13 @@
-import {useState} from 'react'
-import ExpenseTable from './components/ExpenseTable'
-import ExpenseFrom from './components/ExpenseForm'
-import SearchBar from './components/SearchBar'
-import './App.css'
+import { useState } from "react";
+import ExpenseTables from "./Components/ExpenseTables.jsx";
+import ExpenseForm from "./Components/ExpenseForm";
+import SearchBar from "./Components/SearchBar";
+import Header from "./Components/Header.jsx";
+import SideBar from "./Components/SideBar.jsx";
+import './App.css';
 
 function App() {
- const [expenses , setExpenses] = useState([]);
+  const [expenses, setExpenses] = useState([]);
   const [search, setSearch] = useState('');
 
   const filteredExpenses = expenses.filter((expense) =>
@@ -15,15 +17,28 @@ function App() {
   function handleAddExpense(newExpense) {
     setExpenses([...expenses, newExpense]);
   }
-
-  return(
-    <div>
-    <h1>Expense Tracker</h1>
-    <SearchBar search={search} onsearch={setSearch}/>
-    <ExpenseFrom onAddExpense={handleAddExpense}/>
-    <ExpenseTable expenses={filteredExpenses}/>
-    </div>
-  );
+   
+  function handleDeleteExpense(id) {
+  const updatedExpenses = expenses.filter(exp => exp.id !== id);
+  setExpenses(updatedExpenses);
 }
 
-export default App
+
+  return (
+    <div>
+      <h1>Expense Tracker</h1>
+      <SearchBar search={search} onSearch={setSearch} />
+      <ExpenseForm onAddExpense={handleAddExpense} />
+      <ExpenseTables expenses={filteredExpenses}
+      onDeleteExpense={handleDeleteExpense} />
+    </div>
+
+  );
+ 
+  
+}
+
+export default App;
+
+
+
